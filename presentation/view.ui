@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QHBoxLayout" name="horizontalLayout">
+    <item>
+     <widget class="QTabWidget" name="lists_tab">
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="">
+       <attribute name="title">
+        <string>Manage lists</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="student_grid">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_A">
+            <property name="text">
+             <string>Student's ID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="id_line_edit"/>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLineEdit" name="name_line_edit"/>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="label_B">
+            <property name="text">
+             <string>Name</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="label_C">
+            <property name="text">
+             <string>E-mail</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QLineEdit" name="email_line_edit"/>
+          </item>
+          <item row="0" column="6">
+           <widget class="QPushButton" name="add_student_button">
+            <property name="text">
+             <string>Add student</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QGridLayout" name="lists_grid">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="existing_radio_button">
+            <property name="text">
+             <string>Select an existing classroom</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QRadioButton" name="create_radio_button">
+            <property name="text">
+             <string>Create classroom</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="existing_combo_box"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="create_line_edit">
+            <property name="placeholderText">
+             <string>Course name</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QTableView" name="student_table"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="save_button">
+          <property name="text">
+           <string>Save changes</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="delete_button">
+          <property name="text">
+           <string>Delete student</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="">
+       <attribute name="title">
+        <string>Generate report</string>
+       </attribute>
+       <widget class="QWidget" name="gridLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>1271</width>
+          <height>691</height>
+         </rect>
+        </property>
+        <layout class="QGridLayout" name="report_grid"/>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
