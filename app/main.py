@@ -1,17 +1,15 @@
+# -*- coding: utf-8 -*-
+
 import sys
+
 from PyQt5 import QtGui, uic
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
-from presentation import *
-
-class gui(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi("presentation/view.ui", self)
+from presentation import view_manager as vm
 
 def main():
     app = QApplication(sys.argv)
-    my_app = gui()
+    my_app = vm.Gui().get_instance()
     my_app.show()
     my_app.setWindowTitle("Student attendance")
     my_app.setWindowIcon(QtGui.QIcon("presentation/students-cap.png"))
