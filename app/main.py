@@ -12,7 +12,7 @@ def main():
     my_app = vm.Gui().get_instance()
     my_app.show()
     my_app.setWindowTitle("Student attendance")
-    my_app.setWindowIcon(QtGui.QIcon("presentation/students-cap.png"))
+    my_app.setWindowIcon(QtGui.QIcon("app/presentation/students-cap.png"))
     sys.exit(app.exec_())
 
 if __name__ == "__main__":

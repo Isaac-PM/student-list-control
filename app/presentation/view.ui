@@ -116,7 +116,31 @@
          </layout>
         </item>
         <item row="3" column="0">
-         <widget class="QTableWidget" name="student_table"/>
+         <widget class="QTableWidget" name="student_table">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>413</number>
+          </attribute>
+          <column>
+           <property name="text">
+            <string>Student's ID</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>E-mail</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </widget>

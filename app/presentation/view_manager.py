@@ -2,13 +2,12 @@
 
 import sys
 
-from PyQt5 import QtGui, uic
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5 import QtGui, QtWidgets, uic
+from PyQt5.QtWidgets import QApplication, QMainWindow, QTableWidget, QTableWidgetItem
 from importlib.machinery import SourceFileLoader
 
 from presentation import list_model as lm
 from presentation import list_controller as lc
-from presentation import list_table_model as ltm
 
 p = SourceFileLoader("people", "app/users/people.py").load_module()
 
@@ -39,10 +38,13 @@ class Gui(QMainWindow):
                 self.list_controller = lc.Controller(self.list_model)
                 self.list_model.load_classrooms()
                 self.existing_combo_box.addItems([classroom.course_id for classroom in self.list_model.classrooms])
-                self.student_table.setModel(ltm.TableModel(list_table_model_parser(self.list_model.current_classroom.students)))
                 self.existing_radio_button.clicked.connect(lambda:self.manage_radio_buttons())
                 self.create_radio_button.clicked.connect(lambda:self.manage_radio_buttons())
                 self.add_student_button.clicked.connect(lambda:self.add_student())
+                self.save_button.clicked.connect(lambda:self.save_classroom())
+                self.create_line_edit.setEnabled(False)
+                self.existing_combo_box.setEnabled(False)
+                self.update("start")
             except:
                 print ("Unexpected error:", sys.exc_info()[0])
 
@@ -55,20 +57,42 @@ class Gui(QMainWindow):
             self.existing_combo_box.setEnabled(False)
 
     def add_student(self) -> None:
+        if not self.existing_radio_button.isChecked() and not self.create_radio_button.isChecked():
+            self.existing_radio_button.setStyleSheet("border: 1px solid red;")
+            self.create_radio_button.setStyleSheet("border: 1px solid red;")
+            return
+        if self.create_radio_button.isChecked() and self.create_line_edit.text() == "":
+            self.create_line_edit.setStyleSheet("border: 1px solid red;")
+            return
+        if self.existing_radio_button.isChecked() and self.existing_combo_box.currentText() == "":
+            self.existing_combo_box.setStyleSheet("border: 1px solid red;")
+            return
         data:tuple([str, str, str]) = (self.id_line_edit.text(), self.name_line_edit.text(), self.email_line_edit.text())
         if data[0] == "" or data[1] == "" or data[2] == "":
             if data[0] == "": self.id_line_edit.setStyleSheet("border: 1px solid red;")
             if data[1] == "": self.name_line_edit.setStyleSheet("border: 1px solid red;")
             if data[2] == "": self.email_line_edit.setStyleSheet("border: 1px solid red;")
+            return
         else:
             self.list_controller.add_student(data)
-        list_table_model_parser(self.list_model.current_classroom.students)
-        self.update(["add_student"])
+            self.update(["add_student"])
+    
+    def save_classroom(self) -> None:
+        
+        pass
 
     def update(self, args:list = []) -> None:
-        if args[0] == "add_student":
-            # pass
-            self.student_table.setModel(ltm.table_model(list_table_model_parser(self.list_model.current_classroom.students)))
-
-        return
-    
+        if args[0] == "start":
+            pass
+        if args[0] == "add_student" or args[0] == "start":
+            data:list[list] = list_table_model_parser(self.list_model.current_classroom.students)
+            self.student_table.setRowCount(len(data))
+            self.student_table.setColumnCount(len(data[0]))
+            for i in range(len(data)):
+                self.student_table.setItem(i, 0, QTableWidgetItem(data[i][0]))
+                self.student_table.setItem(i, 1, QTableWidgetItem(data[i][1]))
+                self.student_table.setItem(i, 2, QTableWidgetItem(data[i][2]))
+            header = self.student_table.horizontalHeader()       
+            header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
+            header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
+            header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
