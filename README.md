@@ -9,7 +9,7 @@ Application currently under development, whose functionalities will be:
 - Ability to generate attendance reports.
 - MS Teams attendance record reading.
 
-# Galery
+# Gallery
 
 <center><img   src="https://i.imgur.com/33MpNiT.png"   width=""   height=""   /></center>
 
