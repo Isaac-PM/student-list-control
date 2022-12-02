@@ -20,3 +20,9 @@ Application currently under development, whose functionalities will be:
 ## Images
 
 <a href="https://www.flaticon.com/free-icons/university" title="university icons">(App icon) University icons created by Freepik - Flaticon</a>
+
+# Currently working on
+
+1. La combobox de selección de clases no selecciona.
+2. La lectura de archivos no carga la lista de estudiantes (arreglar **1**).
+3. Una vez arreglado _setear_ el campo por defecto (¿vacío?).
