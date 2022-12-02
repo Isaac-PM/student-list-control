@@ -15,7 +15,6 @@ def list_table_model_parser(classroom_students:list[p.Student]):
     data:list[list] = []
     for i in range(len(classroom_students)):
         data.append([classroom_students[i].id, classroom_students[i].name, classroom_students[i].email])
-    print(data)
     return data
 
 class Gui(QMainWindow):
@@ -36,15 +35,16 @@ class Gui(QMainWindow):
                 Gui.__instance = uic.loadUi("app/presentation/view.ui", self)
                 self.list_model = lm.Model()
                 self.list_controller = lc.Controller(self.list_model)
-                self.list_model.load_classrooms()
-                self.existing_combo_box.addItems([classroom.course_id for classroom in self.list_model.classrooms])
                 self.existing_radio_button.clicked.connect(lambda:self.manage_radio_buttons())
                 self.create_radio_button.clicked.connect(lambda:self.manage_radio_buttons())
                 self.add_student_button.clicked.connect(lambda:self.add_student())
                 self.save_button.clicked.connect(lambda:self.save_classroom())
+                self.existing_combo_box.currentIndexChanged.connect(lambda:self.load_classroom())
+                # self.existing_combo_box.set_default_text("Select a classroom")
                 self.create_line_edit.setEnabled(False)
                 self.existing_combo_box.setEnabled(False)
-                self.update("start")
+                self.list_controller.load_classrooms()
+                self.update(["start"])
             except:
                 print ("Unexpected error:", sys.exc_info()[0])
 
@@ -76,15 +76,36 @@ class Gui(QMainWindow):
         else:
             self.list_controller.add_student(data)
             self.update(["add_student"])
-    
+
     def save_classroom(self) -> None:
+        if self.create_radio_button.isChecked() and self.create_line_edit.text() == "":
+            self.create_line_edit.setStyleSheet("border: 1px solid red;")
+            return
+        """
+        modo: si es crear una nueva o usar una existente
+        nombre de la clase
+        lista de estudiantes
         
-        pass
+        """
+        if self.create_radio_button.isChecked():
+            data:tuple([str, str]) = ("create", self.create_line_edit.text())
+            self.list_controller.save_classroom(data)
+    
+    def load_classroom(self) -> None:
+        data:tuple([str]) = (self.existing_combo_box.currentText())
+        self.list_controller.load_classroom(data)
+        self.update(["load_classroom"])
 
     def update(self, args:list = []) -> None:
         if args[0] == "start":
-            pass
+            if len(self.list_model.classrooms) != 0:
+                self.existing_combo_box.currentIndexChanged.disconnect()
+                self.existing_combo_box.clear()
+                self.existing_combo_box.addItems([classroom.course_id for classroom in self.list_model.classrooms])
+                self.existing_combo_box.currentIndexChanged.connect(lambda:self.load_classroom())
+        
         if args[0] == "add_student" or args[0] == "start":
+            if len(self.list_model.current_classroom.students) == 0: return
             data:list[list] = list_table_model_parser(self.list_model.current_classroom.students)
             self.student_table.setRowCount(len(data))
             self.student_table.setColumnCount(len(data[0]))
@@ -96,3 +117,6 @@ class Gui(QMainWindow):
             header.setSectionResizeMode(0, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(1, QtWidgets.QHeaderView.Stretch)
             header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+        
+        if args[0] == "load_classroom":
+            self.update(["start"])

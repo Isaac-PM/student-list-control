@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import pickle
+import sys
 from importlib.machinery import SourceFileLoader
 
 p = SourceFileLoader("people", "app/users/people.py").load_module() # Is this Pythonic?
@@ -16,8 +17,11 @@ class Model():
         self.current_classroom = p.Classroom()
     
     def save_classrooms(self):
-        with open("app/data/classrooms.pickle", "wb") as file:
-            pickle.dump(self.classrooms, file)
+        try:
+            with open("app/data/classrooms.pickle", "wb") as file:
+                pickle.dump(self.classrooms, file)
+        except:
+            print ("Unexpected error:", sys.exc_info()[0])
 
     def load_classrooms(self):
         try:
